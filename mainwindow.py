@@ -1,15 +1,57 @@
 from PySide2.QtWidgets import QMainWindow
 from PySide2.QtCore import Slot
 from ui_mainwindow import Ui_MainWindow
+from particula.particulas import Particulas
+from particula.particula import Particula
+from particula.algoritmos import distancia_euclidiana
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
-        ui = Ui_MainWindow()
-        ui.setupUi(self)
 
-        ui.pushButton.clicked.connect(self.click_agregar)
+        self.particulas = Particulas()
+
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
+        self.ui.agregar_final_pushButton.clicked.connect(self.click_agregar_final)
+        self.ui.agregar_inicio_pushButton.clicked.connect(self.click_agregar_inicio)
+        self.ui.mostrar_pushButton.clicked.connect(self.click_mostrar)
 
     @Slot()
-    def click_agregar(self):
-        print('Datos Caputurados Crack!!')
+    def click_mostrar(self):
+        # self.particulas.mostrar()
+        self.ui.salida.clear()
+        self.ui.salida.insertPlainText(str(self.particulas))
+
+
+    @Slot()
+    def click_agregar_final(self):
+        id = self.ui.id_spinBox.value()
+        origen_x = self.ui.origen_x_spinBox.value()
+        origen_y = self.ui.origne_y_spinBox.value()
+        destino_x = self.ui.destino_x_spinBox.value()
+        destino_y = self.ui.destino_y_spinBox.value()
+        velocidad = self.ui.velocidad_spinBox.value()
+        red = self.ui.red_spinBox.value()
+        green = self.ui.green_spinBox.value()
+        blue = self.ui.blue_spinBox.value()
+
+        particula = Particula(id, origen_x, origen_y, destino_x, destino_y, velocidad, red, green, blue, distancia = distancia_euclidiana)
+        self.particulas.agregar_final(particula)
+
+        # print(id, origen_x, origen_y, destino_x, destino_y, velocidad, red, green, blue)
+        # self.ui.salida.insertPlainText(str(id) + str(origen_x) + str(origen_y) + str(destino_x) + str(destino_y) + str(velocidad) + str(red) + str(green) + str(blue) )
+    @Slot()
+    def click_agregar_inicio(self):
+        id = self.ui.id_spinBox.value()
+        origen_x = self.ui.origen_x_spinBox.value()
+        origen_y = self.ui.origne_y_spinBox.value()
+        destino_x = self.ui.destino_x_spinBox.value()
+        destino_y = self.ui.destino_y_spinBox.value()
+        velocidad = self.ui.velocidad_spinBox.value()
+        red = self.ui.red_spinBox.value()
+        green = self.ui.green_spinBox.value()
+        blue = self.ui.blue_spinBox.value()
+
+        particula = Particula(id, origen_x, origen_y, destino_x, destino_y, velocidad, red, green, blue, distancia = distancia_euclidiana)
+        self.particulas.agregar_inicio(particula)
